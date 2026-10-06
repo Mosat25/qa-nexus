@@ -25,15 +25,20 @@
     <script src="icons.js"></script>
     <!-- Seed Data -->
     <script src="seed.js" defer></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Custom JS -->
     <script src="app.js" defer></script>
 </head>
 
 <body class="bg-slate-900 text-slate-300 font-sans h-screen flex flex-col md:flex-row overflow-hidden">
 
+    <!-- Sidebar Backdrop (Mobile) -->
+    <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/80 z-20 hidden md:hidden backdrop-blur-sm transition-opacity opacity-0"></div>
+
     <!-- Sidebar Navigation -->
-    <aside
-        class="w-full md:w-64 bg-slate-800 border-r border-slate-700 flex flex-col transition-all duration-300 flex-shrink-0">
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 z-30 w-64 bg-slate-800 border-r border-slate-700 flex flex-col transition-transform duration-300 transform -translate-x-full md:relative md:translate-x-0">
         <div class="p-6 flex items-center gap-3 border-b border-slate-700">
             <div class="bg-blue-600 p-2 rounded-lg text-white">
                 <i data-icon="microscope" class="w-6 h-6"></i>
@@ -86,7 +91,12 @@
         <!-- Top Header (Mobile toggle, user actions etc.) -->
         <header
             class="h-16 border-b border-slate-700 bg-slate-800/50 backdrop-blur flex items-center justify-between px-6 flex-shrink-0 z-10">
-            <h2 id="current-section-title" class="text-lg font-semibold text-white">Dashboard</h2>
+            <div class="flex items-center gap-4">
+                <button id="mobile-menu-btn" class="md:hidden text-slate-400 hover:text-white transition-colors">
+                    <i data-icon="menu" class="w-6 h-6"></i>
+                </button>
+                <h2 id="current-section-title" class="text-lg font-semibold text-white">Dashboard</h2>
+            </div>
             <div class="flex items-center gap-4">
                 <button class="text-slate-400 hover:text-white transition-colors relative">
                     <i data-icon="bell" class="w-5 h-5"></i>
@@ -111,12 +121,11 @@
                             <!-- Activity populated by JS -->
                         </div>
                     </div>
-                    <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-sm">
+                    <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-sm flex flex-col">
                         <h3 class="text-lg font-medium text-white border-b border-slate-700 pb-4 mb-4">Distribución de
                             Bugs</h3>
-                        <div class="flex items-center justify-center h-48 text-slate-500">
-                            <!-- Placeholder for a chart -->
-                            <i data-icon="pie-chart" class="w-16 h-16 opacity-20"></i>
+                        <div class="flex-1 flex items-center justify-center min-h-[200px] relative w-full">
+                            <canvas id="bugsChart"></canvas>
                         </div>
                     </div>
                 </div>

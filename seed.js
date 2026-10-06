@@ -19,7 +19,10 @@ const appState = {
      * }
      */
     projects: [
-        // Agrega tus proyectos aquí...
+        { id: 'p1', name: 'E-Commerce Platform', status: 'active', progress: 75, bugs: 12, team: 4 },
+        { id: 'p2', name: 'Mobile App Redesign', status: 'active', progress: 45, bugs: 28, team: 3 },
+        { id: 'p3', name: 'Payment Gateway API', status: 'maintenance', progress: 100, bugs: 2, team: 1 },
+        { id: 'p4', name: 'User Dashboard', status: 'active', progress: 90, bugs: 5, team: 2 }
     ],
 
     /**
@@ -35,7 +38,12 @@ const appState = {
      * }
      */
     kanbanTasks: [
-        // Agrega tus incidencias Kanban aquí...
+        { id: 'TASK-101', title: 'Fix checkout crash on iOS', projectId: 'p2', status: 'inprogress', priority: 'critical', type: 'bug' },
+        { id: 'TASK-102', title: 'Add Apple Pay support', projectId: 'p3', status: 'done', priority: 'high', type: 'feature' },
+        { id: 'TASK-103', title: 'Test new search filters', projectId: 'p1', status: 'todo', priority: 'medium', type: 'task' },
+        { id: 'TASK-104', title: 'Update user profile UI', projectId: 'p4', status: 'inprogress', priority: 'low', type: 'feature' },
+        { id: 'TASK-105', title: 'Verify password reset email', projectId: 'p1', status: 'done', priority: 'high', type: 'task' },
+        { id: 'TASK-106', title: 'Image upload failing', projectId: 'p2', status: 'todo', priority: 'high', type: 'bug' }
     ],
 
     /**
@@ -50,7 +58,11 @@ const appState = {
      * }
      */
     testCases: [
-        // Agrega tus casos de prueba aquí...
+        { id: 'TC-001', title: 'Login with valid credentials', projectId: 'p4', priority: 'critical', status: 'passed' },
+        { id: 'TC-002', title: 'Checkout with empty cart', projectId: 'p1', priority: 'medium', status: 'failed' },
+        { id: 'TC-003', title: 'Process refund API', projectId: 'p3', priority: 'high', status: 'pending' },
+        { id: 'TC-004', title: 'Upload avatar > 5MB', projectId: 'p2', priority: 'low', status: 'passed' },
+        { id: 'TC-005', title: 'Search returns max 50 items', projectId: 'p1', priority: 'medium', status: 'passed' }
     ],
 
     /**
@@ -64,9 +76,9 @@ const appState = {
      * }
      */
     metrics: {
-        totalTests: 0,
-        passedRate: 0,
-        openBugs: 0,
-        activeProjects: 0
+        totalTests: 1245,
+        passedRate: 88,
+        openBugs: 47,
+        activeProjects: 3
     }
 };

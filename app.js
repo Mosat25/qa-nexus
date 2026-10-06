@@ -62,8 +62,36 @@ function setupNavigation() {
 
             // Re-render icons if needed when unhidden (mostly handled by lucide, but good practice if dynamcly injected)
             loadLocalIcons();
+
+            // Close sidebar on mobile after navigation
+            if (window.innerWidth < 768) {
+                closeSidebar();
+            }
         });
     });
+
+    // Mobile Sidebar Toggle Logic
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+
+    function openSidebar() {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+        // small timeout to allow display:block to apply before opacity transition
+        setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+    }
+
+    function closeSidebar() {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('opacity-0');
+        setTimeout(() => backdrop.classList.add('hidden'), 300); // match transition duration
+    }
+
+    if (mobileMenuBtn && sidebar && backdrop) {
+        mobileMenuBtn.addEventListener('click', openSidebar);
+        backdrop.addEventListener('click', closeSidebar);
+    }
 }
 
 // --- MODULE: DASHBOARD ---
@@ -114,6 +142,46 @@ function renderDashboard() {
             </div>
         </div>
     `).join('');
+
+    // 3. Render Chart
+    const ctx = document.getElementById('bugsChart');
+    if (ctx && !window.bugsChartInstance) {
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = 'ui-sans-serif, system-ui, sans-serif';
+        
+        window.bugsChartInstance = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Críticos', 'Altos', 'Medios', 'Bajos'],
+                datasets: [{
+                    data: [5, 12, 18, 12], // Dummy distribution
+                    backgroundColor: [
+                        '#ef4444', // red-500
+                        '#f97316', // orange-500
+                        '#eab308', // yellow-500
+                        '#64748b'  // slate-500
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    }
+                },
+                cutout: '75%'
+            }
+        });
+    }
 }
 
 // --- MODULE: PROJECTS ---
@@ -224,7 +292,7 @@ function renderKanbanCard(task) {
     const projectName = appState.projects.find(p => p.id === task.projectId)?.name || 'Unknown';
 
     return `
-        <div class="bg-slate-800 border border-slate-700 p-4 rounded-lg shadow-sm hover:border-blue-500/50 transition-colors cursor-grab group">
+        <div class="bg-slate-800 border border-slate-700 p-4 rounded-lg shadow-sm hover:border-blue-500/50 transition-colors group">
             <div class="flex justify-between items-start mb-2">
                 <span class="text-xs font-semibold px-2 py-0.5 rounded border uppercase flex items-center gap-1 ${priorityColors[task.priority]}">
                     ${task.priority}
