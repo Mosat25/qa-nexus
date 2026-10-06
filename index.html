@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Nexus</title>
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#151f32',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Local Icons Logic -->
+    <script src="icons.js"></script>
+    <!-- Seed Data -->
+    <script src="seed.js" defer></script>
+    <!-- Custom JS -->
+    <script src="app.js" defer></script>
+</head>
+
+<body class="bg-slate-900 text-slate-300 font-sans h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <!-- Sidebar Navigation -->
+    <aside
+        class="w-full md:w-64 bg-slate-800 border-r border-slate-700 flex flex-col transition-all duration-300 flex-shrink-0">
+        <div class="p-6 flex items-center gap-3 border-b border-slate-700">
+            <div class="bg-blue-600 p-2 rounded-lg text-white">
+                <i data-icon="microscope" class="w-6 h-6"></i>
+            </div>
+            <h1 class="text-xl font-bold text-white tracking-wide">QA Nexus</h1>
+        </div>
+
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <button
+                class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors bg-blue-600/10 text-blue-400 font-medium"
+                data-target="dashboard">
+                <i data-icon="layout-dashboard" class="w-5 h-5"></i>
+                Dashboard
+            </button>
+            <button
+                class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-colors"
+                data-target="projects">
+                <i data-icon="folder-kanban" class="w-5 h-5"></i>
+                Gestión de Proyectos
+            </button>
+            <button
+                class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-colors"
+                data-target="kanban">
+                <i data-icon="kanban-square" class="w-5 h-5"></i>
+                Tablero Kanban
+            </button>
+            <button
+                class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-colors"
+                data-target="testcases">
+                <i data-icon="file-check-2" class="w-5 h-5"></i>
+                Casos de Prueba
+            </button>
+        </nav>
+
+        <div class="p-4 border-t border-slate-700">
+            <div class="flex items-center gap-3 px-4 py-2">
+                <div
+                    class="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center text-sm font-bold text-white">
+                    QA</div>
+                <div>
+                    <p class="text-sm font-medium text-white">Analista Senior</p>
+                    <p class="text-xs text-slate-400">QA Team</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col overflow-hidden relative bg-slate-900">
+        <!-- Top Header (Mobile toggle, user actions etc.) -->
+        <header
+            class="h-16 border-b border-slate-700 bg-slate-800/50 backdrop-blur flex items-center justify-between px-6 flex-shrink-0 z-10">
+            <h2 id="current-section-title" class="text-lg font-semibold text-white">Dashboard</h2>
+            <div class="flex items-center gap-4">
+                <button class="text-slate-400 hover:text-white transition-colors relative">
+                    <i data-icon="bell" class="w-5 h-5"></i>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Content Sections Container -->
+        <div id="main-container" class="flex-1 overflow-y-auto p-6 md:p-8">
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="space-y-6 animate-fade-in block">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="dashboard-metrics">
+                    <!-- Metrics populated by JS -->
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-sm">
+                        <h3 class="text-lg font-medium text-white border-b border-slate-700 pb-4 mb-4">Actividad
+                            Reciente</h3>
+                        <div id="dashboard-activity" class="space-y-4">
+                            <!-- Activity populated by JS -->
+                        </div>
+                    </div>
+                    <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-sm">
+                        <h3 class="text-lg font-medium text-white border-b border-slate-700 pb-4 mb-4">Distribución de
+                            Bugs</h3>
+                        <div class="flex items-center justify-center h-48 text-slate-500">
+                            <!-- Placeholder for a chart -->
+                            <i data-icon="pie-chart" class="w-16 h-16 opacity-20"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="space-y-6 hidden animate-fade-in">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="relative w-full max-w-md">
+                        <i data-icon="search"
+                            class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                        <input type="text" id="project-search" placeholder="Buscar proyectos..."
+                            class="w-full bg-slate-800 border border-slate-700 text-slate-200 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                    </div>
+                    <button
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors font-medium text-sm">
+                        <i data-icon="plus" class="w-4 h-4"></i> Nuevo Proyecto
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="projects-grid">
+                    <!-- Projects populated by JS -->
+                </div>
+            </section>
+
+            <!-- Kanban Section -->
+            <section id="kanban" class="h-full hidden animate-fade-in flex-col">
+                <div
+                    class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 flex-shrink-0">
+                    <select id="kanban-project-filter"
+                        class="bg-slate-800 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 transition-all">
+                        <option value="all">Todos los proyectos</option>
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+                <!-- Kanban Board -->
+                <div class="flex-1 overflow-x-auto overflow-y-hidden pb-4">
+                    <div class="flex gap-6 h-full min-w-max" id="kanban-board">
+                        <!-- Columns populated by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Test Cases Section -->
+            <section id="testcases" class="space-y-6 hidden animate-fade-in">
+                <div
+                    class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-800 p-4 rounded-xl border border-slate-700">
+                    <div class="flex flex-wrap gap-4 items-center w-full">
+                        <div class="relative flex-1 min-w-[200px]">
+                            <i data-icon="search"
+                                class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                            <input type="text" id="tc-search" placeholder="Buscar casos..."
+                                class="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:border-blue-500 transition-all text-sm">
+                        </div>
+                        <select id="tc-status-filter"
+                            class="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 transition-all text-sm">
+                            <option value="all">Estado: Todos</option>
+                            <option value="passed">Aprobado</option>
+                            <option value="failed">Fallido</option>
+                            <option value="pending">Pendiente</option>
+                        </select>
+                        <select id="tc-priority-filter"
+                            class="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 transition-all text-sm">
+                            <option value="all">Prioridad: Todas</option>
+                            <option value="high">Alta</option>
+                            <option value="medium">Media</option>
+                            <option value="low">Baja</option>
+                        </select>
+                    </div>
+                    <div class="flex gap-3 flex-shrink-0">
+                        <button id="btn-export-json"
+                            class="bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors font-medium text-sm">
+                            <i data-icon="download" class="w-4 h-4"></i> JSON
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm whitespace-nowrap">
+                            <thead class="bg-slate-900/50 text-slate-400 border-b border-slate-700">
+                                <tr>
+                                    <th class="px-6 py-4 font-semibold">ID / Título</th>
+                                    <th class="px-6 py-4 font-semibold">Proyecto</th>
+                                    <th class="px-6 py-4 font-semibold">Prioridad</th>
+                                    <th class="px-6 py-4 font-semibold">Estado</th>
+                                    <th class="px-6 py-4 font-semibold text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tc-table-body" class="divide-y divide-slate-700/50 text-slate-300">
+                                <!-- Table rows populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Empty State Placeholder -->
+                    <div id="tc-empty-state"
+                        class="hidden flex flex-col items-center justify-center py-12 text-slate-500">
+                        <i data-icon="search-X" class="w-12 h-12 mb-3 opacity-50"></i>
+                        <p>No se encontraron casos de prueba.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <style>
+        /* Custom Utilities and Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Kanban Column Scrollbar */
+        .kanban-column-content::-webkit-scrollbar {
+            width: 4px;
+        }
+    </style>
+</body>
+
+</html>
